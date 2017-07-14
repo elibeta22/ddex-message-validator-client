@@ -3,14 +3,14 @@ import React from 'react';
 import {Panel, Button, Form, FormGroup, ControlLabel } from 'react-bootstrap';
 import ActionCreator from '../../actions/AppActions';
 import Store from '../../stores/ValidateStore';
-
+import Loader from 'react-loader';
 var $ = require('jquery');
 
 class ERNForm extends React.Component {
 
   constructor() {
     super();
-    this.state = { ernFile: undefined, validation: []}
+    this.state = { ernFile: undefined, schemaValidation: 'Validate (XSD)', schematronValidation: []}
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -32,33 +32,45 @@ class ERNForm extends React.Component {
             <Button bsStyle="primary" type="submit">Validate</Button>
           </Form>
           </Panel>
-
+          <div>
           <Panel header="Schema Validation (XSD)">
-           <p>
-           </p>
-           </Panel>
-
-           <Panel bsStyle="success" header="Schematron Validation">
               <xmp>
-                 <div>
-                    {this.state.validation.map((validate) => (
-                               <p>{validate.msg}  {validate.role}</p>
-                                 ))}
-                 </div>
+                 <p>
+                    {this.state.schemaValidation}
+                 </p>
               </xmp>
            </Panel>
-
+          </div>
+           <Panel bsStyle="success" header="Schematron Validation">
+              <xmp>
+              <div>
+                {this.state.schematronValidation.map((schematronValidate) => (
+                                               <p>{schematronValidate.msg}  {schematronValidate.role}</p>
+                                                 ))}
+              </div>
+              </xmp>
+           </Panel>
           </div>
     );
-
   }
 
-    handleChange(event) {
-      this.setState({ernFile: event.target.value});
-    }
+   handleChange(event) {
+     this.setState({ernFile: event.target.value, schemaValidation:'Validate (XSD)', schematronValidation: []});
+   }
 
   componentWillMount() {
     Store.addChangeListener(this.onChange);
+  }
+
+  componentDidUpdate() {
+    if (this.state.schemaValidation == 'Document is valid'){
+      this.setState({ schemaValidation:'DOCUMENT IS VALID'});
+      console.log('its valid mofo');
+      var form = $('#ern-validate-form')[0];
+      var formData = new FormData(form);
+      ActionCreator.schematronValidate(formData);
+      this.setState({ ernFile: ''});
+    }
   }
 
   componentWillUnmount() {
@@ -66,31 +78,16 @@ class ERNForm extends React.Component {
   }
 
   onChange() {
-      this.setState({ validation: Store.getValidation() });
+    this.setState({ schemaValidation: Store.getSchemaValidation(), schematronValidation: Store.getSchematronValidation() });
   }
-
 
   handleSubmit(e){
       e.preventDefault();
-
       // we use FormData as superagent does not support mulitpart on the client
       var form = $('#ern-validate-form')[0];
-
       var formData = new FormData(form);
-
-      ActionCreator.validate(formData);
-
-      this.setState({
-        ernFile: ''
-      });
-
-
-
-
-}
-
-
-
+      ActionCreator.schemaValidate(formData);
+  }
 }
 
 export default ERNForm;

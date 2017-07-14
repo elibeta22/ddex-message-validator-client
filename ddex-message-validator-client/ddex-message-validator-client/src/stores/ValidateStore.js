@@ -4,17 +4,36 @@ import { EventEmitter } from 'events';
 
 const CHANGE_EVENT = 'change';
 
-let _validation = [];
+let _schemaValidation = [];
+let _validateError = [];
+let _schematronValidation = [];
 
-function setValidation(validation) {
-  _validation = validation;
+function setSchemaValidation(schemaValidation) {
+  _schemaValidation = schemaValidation;
 }
 
+function setSchematronValidation(schematronValidation) {
+  _schematronValidation = schematronValidation;
+}
+
+function setValidateError(validateError) {
+  _validateError = validateError;
+}
+
+ function reset() {
+     _schematronValidation = [];
+    }
 
 class StoreClass extends EventEmitter {
 
   emitChange() {
     this.emit(CHANGE_EVENT);
+  }
+  updateListener(callback){
+    this.removeListener(CHANGE_EVENT, callback)
+    this.on(CHANGE_EVENT, callback)
+
+
   }
 
   addChangeListener(callback) {
@@ -25,8 +44,16 @@ class StoreClass extends EventEmitter {
     this.removeListener(CHANGE_EVENT, callback)
   }
 
-    getValidation() {
-      return _validation ;
+    getSchemaValidation() {
+      return _schemaValidation ;
+    }
+
+    getSchematronValidation() {
+      return _schematronValidation ;
+    }
+
+    getValidateError() {
+      return _validateError;
     }
 
 }
@@ -38,10 +65,22 @@ const Store = new StoreClass();
 // respond appropriately
 Store.dispatchToken = AppDispatcher.register(action => {
   switch(action.actionType) {
-    case AppConstants.VALIDATE_XML:
-      setValidation(action.validation);
+    case AppConstants.SCHEMA_VALIDATION:
+      setSchemaValidation(action.schemaValidation);
       // We need to call emitChange so the event listener
       // knows that a change has been made
+      Store.emitChange();
+      break;
+    case AppConstants.VALIDATE_ERROR:
+      setValidateError(action.validateError);
+      Store.emitChange();
+      break;
+    case AppConstants.SCHEMATRON_VALIDATION:
+      setSchematronValidation(action.schematronValidation);
+      Store.emitChange();
+      break;
+    case AppConstants.RESET:
+      setSchematronValidation(action.schematronValidation);
       Store.emitChange();
       break;
 

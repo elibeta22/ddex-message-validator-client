@@ -3,16 +3,36 @@ import AppConstants from '../constants/AppConstants';
 import API from '../utils/API';
 
 var ActionCreator = {
-	validate: function (formData) {
+	schemaValidate: function (formData) {
 		API
-		.validate(formData)
-			.then(function (validation) {
-				AppDispatcher.dispatch({
-					actionType: AppConstants.VALIDATE_XML,
-					validation: validation
-				});
+		.schemaValidate(formData)
+			.then(function (schemaValidation) {
+			 console.log(schemaValidation);
+				  AppDispatcher.dispatch({
+          					actionType: AppConstants.SCHEMA_VALIDATION,
+          					schemaValidation: schemaValidation
+          				});
 			});
-	}
+	},
+		schematronValidate: function (formData) {
+  		API
+  		.schematronValidate(formData)
+  			.then(function (schematronValidation) {
+  			  console.log(schematronValidation);
+  				AppDispatcher.dispatch({
+  					actionType: AppConstants.SCHEMATRON_VALIDATION,
+  					schematronValidation: schematronValidation
+  				});
+  			});
+  	},
+
+  	resetSchematronValidation:function(){
+  	      				AppDispatcher.dispatch({
+          					actionType: AppConstants.RESET,
+          					schematronValidation: undefined
+          				});
+  	}
+
 };
 
 
