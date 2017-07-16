@@ -79,8 +79,10 @@ Store.dispatchToken = AppDispatcher.register(action => {
       setSchematronValidation(action.schematronValidation);
       Store.emitChange();
       break;
+
     case AppConstants.RESET:
       setSchematronValidation(action.schematronValidation);
+      setSchemaValidation(action.schematronValidation);
       Store.emitChange();
       break;
 

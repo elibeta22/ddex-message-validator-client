@@ -1,6 +1,6 @@
 import request from 'superagent/lib/client'
 import React from 'react';
-import {Panel, Button, Form, FormGroup, ControlLabel } from 'react-bootstrap';
+import {Panel, Button, Form, FormGroup, ControlLabel,Grid } from 'react-bootstrap';
 import ActionCreator from '../../actions/AppActions';
 import Store from '../../stores/ValidateStore';
 import Loader from 'react-loader';
@@ -10,7 +10,9 @@ class ERNForm extends React.Component {
 
   constructor() {
     super();
-    this.state = { ernFile: undefined, schemaValidation: 'Validate (XSD)', schematronValidation: []}
+    this.state = { ernFile: undefined, schemaValidation: '', schematronValidation: [] };
+
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -20,6 +22,9 @@ class ERNForm extends React.Component {
 
   render() {
     return (
+    <div>
+        <Grid>
+
           <div>
           <Panel>
           <Form inline id="ern-validate-form" onSubmit={this.handleSubmit}>
@@ -51,11 +56,14 @@ class ERNForm extends React.Component {
               </xmp>
            </Panel>
           </div>
+      </Grid>
+  </div>
     );
   }
 
    handleChange(event) {
-     this.setState({ernFile: event.target.value, schemaValidation:'Validate (XSD)', schematronValidation: []});
+     this.setState({ernFile: event.target.value});
+     ActionCreator.reset();
    }
 
   componentWillMount() {
@@ -64,12 +72,11 @@ class ERNForm extends React.Component {
 
   componentDidUpdate() {
     if (this.state.schemaValidation == 'Document is valid'){
-      this.setState({ schemaValidation:'DOCUMENT IS VALID'});
       console.log('its valid mofo');
       var form = $('#ern-validate-form')[0];
       var formData = new FormData(form);
       ActionCreator.schematronValidate(formData);
-      this.setState({ ernFile: ''});
+      this.setState({ ernFile: '', schemaValidation:'DOCUMENT IS VALID'});
     }
   }
 
@@ -78,7 +85,7 @@ class ERNForm extends React.Component {
   }
 
   onChange() {
-    this.setState({ schemaValidation: Store.getSchemaValidation(), schematronValidation: Store.getSchematronValidation() });
+      this.setState({ schemaValidation: Store.getSchemaValidation(), schematronValidation: Store.getSchematronValidation() });
   }
 
   handleSubmit(e){
@@ -88,6 +95,7 @@ class ERNForm extends React.Component {
       var formData = new FormData(form);
       ActionCreator.schemaValidate(formData);
   }
+
 }
 
 export default ERNForm;

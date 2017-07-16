@@ -26,14 +26,17 @@ var ActionCreator = {
   			});
   	},
 
-  	resetSchematronValidation:function(){
-  	      				AppDispatcher.dispatch({
-          					actionType: AppConstants.RESET,
-          					schematronValidation: undefined
-          				});
-  	}
 
-};
+  	reset:function(){
+  	                var schemaDefault = 'Validate (XSD)';
+  	                var schematronDefault = [];
+  	      					AppDispatcher.dispatch({
+          					actionType: AppConstants.RESET,
+          					schematronValidation: schematronDefault,
+          					schemaValidation: schemaDefault
+          				});
+  	        }
+          };
 
 
 export default ActionCreator;
