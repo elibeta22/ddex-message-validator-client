@@ -26,7 +26,7 @@ class ERNForm extends React.Component {
         <Grid>
 
           <div>
-          <Panel>
+          <Panel header="Insert Document">
           <Form inline id="ern-validate-form" onSubmit={this.handleSubmit}>
             <FormGroup>
               <ControlLabel></ControlLabel>
