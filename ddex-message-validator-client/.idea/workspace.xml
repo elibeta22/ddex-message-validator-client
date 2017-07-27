@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7032ef08-0b8e-4eb6-8137-9040636006a3" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/vcs.xml" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/misc.xml" afterPath="$PROJECT_DIR$/../.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../.idea/workspace.xml" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddex-message-validator-client/src/components/main/About.js" afterPath="$PROJECT_DIR$/ddex-message-validator-client/src/components/main/About.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddex-message-validator-client/src/components/main/Help.js" afterPath="$PROJECT_DIR$/ddex-message-validator-client/src/components/main/Help.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ddex-message-validator-client/src/utils/API.js" afterPath="$PROJECT_DIR$/ddex-message-validator-client/src/utils/API.js" />
     </list>
     <ignored path="ddex-message-validator-client.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -192,7 +188,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
