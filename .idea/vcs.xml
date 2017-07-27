@@ -4,7 +4,7 @@
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ddex-message-validator-api" vcs="svn" />
     <mapping directory="$PROJECT_DIR$/ddex-message-validator-api/ddex-message-validator-api" vcs="svn" />
-    <mapping directory="$PROJECT_DIR$/ddex-message-validator-master" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/ddex-message-validator-client/ddex-message-validator-client" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/ddex-message-validator-master/ddex-message-validator-master" vcs="svn" />
   </component>
 </project>

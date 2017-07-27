@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import {Jumbotron, Button } from 'react-bootstrap';
 
 
 class About extends Component {
   render() {
     return (
-      <div>
-        <h2>About</h2>
-        <p>Insert About Here</p>
-      </div>
+    <div>
+      <Jumbotron>
+        <h1>About</h1>
+        <p>This is a where about should go , a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <p><Button bsStyle="primary">Learn more</Button></p>
+      </Jumbotron>
+    </div>
     );
   }
 }

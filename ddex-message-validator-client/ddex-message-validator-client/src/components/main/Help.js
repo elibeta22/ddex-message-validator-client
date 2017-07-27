@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
+import {Jumbotron, Button } from 'react-bootstrap';
 
 
 class Help extends Component {
   render() {
     return (
-      <div>
-        <h2>Help</h2>
-        <p>Insert Help Here</p>
-      </div>
+    <div>
+      <Jumbotron>
+        <h1>Help</h1>
+        <p>This is a where help should go , a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+        <p><Button bsStyle="primary">Learn more</Button></p>
+      </Jumbotron>
+    </div>
     );
   }
 }

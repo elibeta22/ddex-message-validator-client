@@ -8,6 +8,7 @@ export default {
     return new Promise((resolve, reject) => {
       request
         .post('http://localhost:6060/api/json/validateSchema')
+        .withCredentials()
          .send(formData)
         .end((error, response) => {
           if (error) reject(error);
@@ -19,6 +20,7 @@ export default {
       return new Promise((resolve, reject) => {
         request
           .post('http://localhost:6060/api/json/validateSchematron')
+          .withCredentials()
            .send(formData)
            .set('Accept', 'application/json')
           .end((error, response) => {
