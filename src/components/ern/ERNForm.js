@@ -12,16 +12,18 @@ class ERNForm extends React.Component {
     super();
     this.state = { ernFile: undefined,
                    schemaValidation: '',
+                   schemaPanel: 'Schema Validation (XSD)',
+                   schematronPanel: 'Schematron Validation',
                    schematronValidation: [],
                    schemaVersion: 'schemaVersion',
                    schematronVersion: 'schematronVersion',
-                   productVersion: 'productVersion'};
+                   profileVersion: 'profileVersion'};
 
 
     this.handleErnFileChange = this.handleErnFileChange.bind(this);
     this.handleSchemaVersionChange = this.handleSchemaVersionChange.bind(this);
     this.handleSchematronVersionChange = this.handleSchematronVersionChange.bind(this);
-    this.handleProductVersionChange = this.handleProductVersionChange.bind(this);
+    this.handleProfileVersionChange = this.handleProfileVersionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
@@ -30,7 +32,6 @@ class ERNForm extends React.Component {
     return (
     <div>
       <Grid>
-
         <div>
           <Panel header="Insert Document">
             <Form inline id="ern-validate-form" onSubmit={this.handleSubmit}>
@@ -57,9 +58,9 @@ class ERNForm extends React.Component {
                 </ButtonToolbar>
               </FormGroup>
 
-              <FormGroup onClick={this.handleProductVersionChange}>
+              <FormGroup onClick={this.handleProfileVersionChange}>
                  <ButtonToolbar>
-                   <DropdownButton title={this.state.productVersion} bsSize="small" id="dropdown-size-small">
+                   <DropdownButton title={this.state.profileVersion} bsSize="small" id="dropdown-size-small">
                     <MenuItem title="AudioAlbumMusicOnly">AudioAlbumMusicOnly</MenuItem>
                     <MenuItem  divider/>
                     <MenuItem title="AudioSingle">AudioSingle</MenuItem>
@@ -79,7 +80,7 @@ class ERNForm extends React.Component {
             </Form>
           </Panel>
         <div>
-        <Panel header="Schema Validation (XSD)">
+        <Panel header={this.state.schemaPanel}>
               <xmp>
                  <p>
                     {this.state.schemaValidation}
@@ -87,7 +88,7 @@ class ERNForm extends React.Component {
               </xmp>
         </Panel>
         </div>
-        <Panel bsStyle="success" header="Schematron Validation">
+        <Panel bsStyle="success" header={this.state.schematronPanel}>
               <xmp>
               <div>
                 {this.state.schematronValidation.map((schematronValidate) => (
@@ -103,7 +104,7 @@ class ERNForm extends React.Component {
   }
 
    handleErnFileChange(event) {
-     this.setState({ernFile: event.target.value});
+     this.setState({ernFile: event.target.value, schemaPanel:'Schema Validation (XSD)'});
      ActionCreator.reset();
    }
 
@@ -119,10 +120,10 @@ class ERNForm extends React.Component {
         console.log(this.state.schematronVersion);
       }
 
-   handleProductVersionChange(event) {
+   handleProfileVersionChange(event) {
         event.preventDefault();
-        this.setState({productVersion: event.target.title});
-        console.log(this.state.productVersion);
+        this.setState({profileVersion: event.target.title});
+        console.log(this.state.profileVersion);
       }
 
 
@@ -134,43 +135,48 @@ class ERNForm extends React.Component {
     if (this.state.schemaValidation == 'Document is valid' &&
        (this.state.schematronVersion !== 'schematronVersion' ||
         this.state.schematronVersion !== '' ||
-        this.state.productVersion !== 'productVersion' ||
-        this.state.productVersion !== '') ){
+        this.state.profileVersion !== 'profileVersion' ||
+        this.state.profileVersion !== '') ){
 
       console.log('its valid mofo');
       var form = $('#ern-validate-form')[0];
       var formData = new FormData(form);
       formData.append("schematronVersion", this.state.schematronVersion);
-      formData.append("productVersion", this.state.productVersion);
+      formData.append("profileVersion", this.state.profileVersion);
 
+      var fileName = this.state.ernFile;
       ActionCreator.schematronValidate(formData);
-      this.setState({ ernFile: '', schemaValidation:'DOCUMENT IS VALID'});
+      this.setState({ernFile:'',schemaValidation:'DOCUMENT IS VALID'});
     }
 
     if (this.state.schemaVersion == ''){
-       this.setState({ schemaVersion:'schemaVersion', schemaValidation: []});
+       this.setState({ schemaVersion:'schemaVersion', schemaValidation: ''});
+        ActionCreator.reset();
     }
 
     if (this.state.schematronVersion == ''){
        this.setState({ schematronVersion:'schematronVersion', schematronValidation: []});
+        ActionCreator.reset();
     }
 
-    if (this.state.productVersion == ''){
-          this.setState({ productVersion:'productVersion', schematronValidation: []});
+    if (this.state.profileVersion == ''){
+          this.setState({ profileVersion:'profileVersion', schematronValidation: []});
+          ActionCreator.reset();
+    }
+
+    if (this.state.schemaValidation == "Premature end of file."){
+          this.setState({ schemaValidation: 'Please insert a document to validate.', schematronValidation:[]});
     }
 
     if (this.state.schemaValidation == 'Document is valid' &&
        (this.state.schematronVersion == 'schematronVersion' ||
         this.state.schematronVersion == '' ||
-        this.state.productVersion == 'productVersion' ||
-        this.state.productVersion == '') ){
+        this.state.profileVersion == 'profileVersion' ||
+        this.state.profileVersion == '') ){
 
            this.setState({  schematronValidation:[{'msg':'You must choose schematron and product version if you want to use schematron validation.'}]});
 
             }
-
-
-
   }
 
   componentWillUnmount() {
@@ -184,12 +190,13 @@ class ERNForm extends React.Component {
   handleSubmit(e){
       e.preventDefault();
       // we use FormData as superagent does not support mulitpart on the client
+      this.setState({ schematronValidation:[], schemaPanel: 'Schema Validation (XSD) - ' + this.state.ernFile.replace(/^.*[\\\/]/, '')});
 
       var form = $('#ern-validate-form')[0];
       var formData = new FormData(form);
       formData.append("schemaVersion", this.state.schemaVersion);
-      if (this.state.ernFile == undefined || this.state.ernFile == ''){
-         this.setState({ schemaValidation:'PLease insert a document to validate.'});
+      if (this.state.ernFile == undefined || this.state.ernFile == '' || this.state.ernFile == 'Premature end of file.'){
+         this.setState({ schemaValidation:'Please insert a document to validate.'});
       }
 
       if(this.state.schemaVersion == 'schemaVersion'){
