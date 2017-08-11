@@ -7,12 +7,14 @@ export default {
   schemaValidate: function(formData) {
     return new Promise((resolve, reject) => {
       request
-        .post('http://localhost:6060/api/json/validateSchema')
+        .post('http://localhost:6060/api/json/validateXML')
         .withCredentials()
          .send(formData)
+        .set('Accept', 'application/json')
         .end((error, response) => {
+          console.log(error);
           if (error) reject(error);
-          resolve(response.text);
+          resolve(JSON.parse(response.text));
         });
     });
   },
@@ -24,8 +26,9 @@ export default {
            .send(formData)
            .set('Accept', 'application/json')
           .end((error, response) => {
+          console.log(JSON.parse(response.text));
             if (error) reject(error);
-            resolve(response.body);
+            resolve(JSON.parse(response.text));
           });
       });
     }

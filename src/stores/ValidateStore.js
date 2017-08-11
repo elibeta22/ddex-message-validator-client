@@ -5,7 +5,7 @@ import { EventEmitter } from 'events';
 const CHANGE_EVENT = 'change';
 
 let _schemaValidation = [];
-let _validateError = [];
+let _validateError = '';
 let _schematronValidation = [];
 
 function setSchemaValidation(schemaValidation) {
@@ -67,6 +67,7 @@ Store.dispatchToken = AppDispatcher.register(action => {
   switch(action.actionType) {
     case AppConstants.SCHEMA_VALIDATION:
       setSchemaValidation(action.schemaValidation);
+      setSchematronValidation(action.schematronValidation);
       // We need to call emitChange so the event listener
       // knows that a change has been made
       Store.emitChange();
