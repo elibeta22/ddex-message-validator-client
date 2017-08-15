@@ -97,7 +97,7 @@ class ERNComponent extends React.Component {
   componentDidUpdate(){
 
        if (this.state.schemaVersion == ''){
-           this.setState({ schemaVersion:'schemaVersion', schemaValidation: ''});
+           this.setState({ schemaVersion:'schemaVersion', schemaValidation: '', schemaPanel: 'Schema Validation (XSD)'});
         }
 
         if (this.state.schematronVersion == ''){
@@ -113,6 +113,7 @@ class ERNComponent extends React.Component {
 
   handleSubmit(e){
       e.preventDefault();
+
       // we use FormData as superagent does not support mulitpart on the client
       if (this.state.schemaVersion === "schemaVersion" ||
           this.state.profileVersion === "profileVersion" ||
@@ -121,9 +122,10 @@ class ERNComponent extends React.Component {
                     return false;
       }
       if(this.state.ernFile === '' || this.state.ernFile === undefined){
-            this.setState({ schemaValidation:'Please insert Document', schematronValidation:[]});
+            this.setState({ schemaValidation:'Please insert Document', schematronValidation:[], schemaPanel: 'Schema Validation (XSD)'});
             return false;
       }
+      this.setState({ schemaPanel: 'Schema Validation (XSD) - ' + this.state.ernFile.replace(/^.*[\\\/]/, '')});
       var form = $('#ern-validate-form')[0];
       var formData = new FormData(form);
       formData.append("schemaVersion", this.state.schemaVersion);
