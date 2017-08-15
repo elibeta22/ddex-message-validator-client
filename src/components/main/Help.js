@@ -23,7 +23,7 @@ class Help extends Component {
       <Grid>
         <Jumbotron>
           <h1>Help</h1>
-          <p>To use the validator you must select a schemaVersion for the schema (XSD) validation and you must also choose a schemaVersion, profileVersion to use the schematron validator. If you click the button below you will see links to github repositories which shows the open source code and also explains another way of using the schema validaor(cURL).
+          <p>To use the validator you must select a schemaVersion for the schema (XSD) validation and you must also choose a schemaVersion, profileVersion to use the schematron validator. If you click the button below you will see links to github repositories which shows the open source code and also explains another way of using the schema validator(cURL).
           <br/><br/> {this.state.github_api} <br/> {this.state.github_client}</p>
           <p><Button bsStyle="primary" onClick={this.handleClick}>GitHub</Button></p>
         </Jumbotron>

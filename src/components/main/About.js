@@ -5,7 +5,7 @@ import {Jumbotron, Button, Grid } from 'react-bootstrap';
 class About extends Component {
   constructor() {
       super();
-     this.state = { about: 'This ia a Schema XML validator app. Enjoy!!'};
+     this.state = { about: 'This is a Schema XML validator app. Enjoy!!'};
 
       this.handleClick = this.handleClick.bind(this);
     }
