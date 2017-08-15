@@ -3,9 +3,9 @@ import AppConstants from '../constants/AppConstants';
 import API from '../utils/API';
 
 var ActionCreator = {
-	schemaValidate: function (formData) {
+	ValidateXML: function (formData) {
 		API
-		.schemaValidate(formData)
+		.ValidateXML(formData)
 			.then(function (response) {
 			  if(response[0]['status']){
 			    console.log("An error was detected!");
@@ -25,37 +25,16 @@ var ActionCreator = {
                    				});
          }
 			}).catch(function(errorMessage){
-
+                  var errorMessage = "Sorry but it seems something went wrong.";
 			            AppDispatcher.dispatch({
                     actionType: AppConstants.SCHEMA_VALIDATION,
-                    schemaValidation: errorMessage + " -> Sorry but it seems something went wrong.",
+                    schemaValidation: errorMessage,
                     schematronValidation : []
 
                   });
 			});
-	},
-		schematronValidate: function (formData) {
-  		API
-  		.schematronValidate(formData)
-  			.then(function (schematronValidation) {
-  				AppDispatcher.dispatch({
-  					actionType: AppConstants.SCHEMATRON_VALIDATION,
-  					schematronValidation: schematronValidation
-  				});
-  			});
-  	},
-
-
-  	reset:function(){
-  	                var schemaDefault = '';
-  	                var schematronDefault = [];
-  	      					AppDispatcher.dispatch({
-          					actionType: AppConstants.RESET,
-          					schematronValidation: schematronDefault,
-          					schemaValidation: schemaDefault
-          				});
-  	        }
-          };
+	  }
+  };
 
 
 export default ActionCreator;

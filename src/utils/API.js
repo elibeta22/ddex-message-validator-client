@@ -4,7 +4,7 @@ var request = require('superagent');
 var Promise = require('es6-promise').Promise; // jshint ignore:line
 
 export default {
-  schemaValidate: function(formData) {
+  ValidateXML: function(formData) {
     return new Promise((resolve, reject) => {
       request
         .post('http://localhost:6060/api/json/validateXML')

@@ -1,7 +1,7 @@
 require('normalize.css/normalize.css');
 require('styles/App.css');
 import Header from './main/Header';
-import Ern from './ern/ERNForm';
+import Ern from './ern/ERNComponent';
 import Help from './main/Help';
 import About from './main/About';
 import '../styles/bootstrap/css/bootstrap.min.css';
