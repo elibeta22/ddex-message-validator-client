@@ -17,15 +17,15 @@ class ERNComponent extends React.Component {
                    schemaPanel: 'Schema Validation (XSD)',
                    schematronPanel: 'Schematron Validation',
                    schematronValidation: [],
-                   schemaVersion: 'schemaVersion',
-                   schematronVersion: 'schematronVersion',
-                   profileVersion: 'profileVersion'};
+                   ernVersion: 'ERN Version',
+                   profileVersion: 'Profile Version',
+                   releaseVersion: 'Release Version'};
 
 
     this.handleErnFileChange = this.handleErnFileChange.bind(this);
-    this.handleSchemaVersionChange = this.handleSchemaVersionChange.bind(this);
-    this.handleSchematronVersionChange = this.handleSchematronVersionChange.bind(this);
+    this.handleERNVersionChange = this.handleERNVersionChange.bind(this);
     this.handleProfileVersionChange = this.handleProfileVersionChange.bind(this);
+    this.handleReleaseVersionChange = this.handleReleaseVersionChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
   }
@@ -37,12 +37,12 @@ class ERNComponent extends React.Component {
         <div>
 
             <ERNForm handleSubmit={this.handleSubmit}
-                     handleSchemaVersionChange={this.handleSchemaVersionChange}
-                     schemaVersion={this.state.schemaVersion}
-                     handleSchematronVersionChange={this.handleSchematronVersionChange}
-                     schematronVersion={this.state.schematronVersion}
+                     handleERNVersionChange={this.handleERNVersionChange}
+                     ernVersion={this.state.ernVersion}
                      handleProfileVersionChange={this.handleProfileVersionChange}
                      profileVersion={this.state.profileVersion}
+                     handleReleaseVersionChange={this.handleReleaseVersionChange}
+                     releaseVersion={this.state.releaseVersion}
                      ernFile={this.state.ernFile}
                      handleErnFileChange={this.handleErnFileChange}/>
 
@@ -61,22 +61,20 @@ class ERNComponent extends React.Component {
      ActionCreator.reset();
    }
 
-    handleSchemaVersionChange(event) {
+    handleERNVersionChange(event) {
       event.preventDefault();
-      this.setState({schemaVersion: event.target.title});
-      console.log(this.state.schemaVersion);
+      this.setState({ernVersion: event.target.name, realERNVersion: event.target.title});
     }
-
-   handleSchematronVersionChange(event) {
-        event.preventDefault();
-        this.setState({schematronVersion: event.target.title});
-        console.log(this.state.schematronVersion);
-      }
 
    handleProfileVersionChange(event) {
         event.preventDefault();
         this.setState({profileVersion: event.target.title});
-        console.log(this.state.profileVersion);
+      }
+
+   handleReleaseVersionChange(event) {
+        event.preventDefault();
+        this.setState({releaseVersion: event.target.name, realReleaseVersion: event.target.title});
+        console.log(this.state.realReleaseVersion);
       }
 
 
@@ -96,28 +94,26 @@ class ERNComponent extends React.Component {
 
   componentDidUpdate(){
 
-       if (this.state.schemaVersion == ''){
-           this.setState({ schemaVersion:'schemaVersion', schemaValidation: '', schemaPanel: 'Schema Validation (XSD)'});
-        }
-
-        if (this.state.schematronVersion == ''){
-           this.setState({ schematronVersion:'schematronVersion', schematronValidation: []});
+       if (this.state.ernVersion == ''){
+           this.setState({ ernVersion:'ERN Version', schemaValidation: '', schemaPanel: 'Schema Validation (XSD)'});
         }
 
         if (this.state.profileVersion == ''){
-              this.setState({ profileVersion:'profileVersion', schematronValidation: []});
+           this.setState({ profileVersion:'Profile Version', schematronValidation: []});
         }
 
-
+        if (this.state.releaseVersion == ''){
+              this.setState({ releaseVersion:'Release Version', schematronValidation: []});
+        }
   }
 
   handleSubmit(e){
       e.preventDefault();
 
       // we use FormData as superagent does not support mulitpart on the client
-      if (this.state.schemaVersion === "schemaVersion" ||
-          this.state.profileVersion === "profileVersion" ||
-          this.state.schematronVersion === "schematronVersion"){
+      if (this.state.ernVersion === "ERN Version" ||
+          this.state.releaseVersion === "releaseVersion" ||
+          this.state.profileVersion === "profileVersion"){
                     this.setState({ schemaValidation:'Please choose a schemaVersion, schematronVersion and Profile Version to begin validating your XML Document.'});
                     return false;
       }
@@ -128,9 +124,9 @@ class ERNComponent extends React.Component {
       this.setState({ schemaPanel: 'Schema Validation (XSD) - ' + this.state.ernFile.replace(/^.*[\\\/]/, '')});
       var form = $('#ern-validate-form')[0];
       var formData = new FormData(form);
-      formData.append("schemaVersion", this.state.schemaVersion);
-      formData.append("schematronVersion", this.state.schematronVersion);
+      formData.append("ernVersion", this.state.realERNVersion);
       formData.append("profileVersion", this.state.profileVersion);
+      formData.append("releaseVersion", this.state.realReleaseVersion);
       ActionCreator.ValidateXML(formData);
       this.setState({ ernFile:''});
 

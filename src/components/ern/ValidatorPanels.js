@@ -1,5 +1,6 @@
 import request from 'superagent/lib/client'
 import React from 'react';
+
 import {Panel, Button, Form, FormGroup, ControlLabel, Grid, ButtonToolbar, DropdownButton, MenuItem } from 'react-bootstrap';
 
 class ERNPanel extends React.Component{
@@ -8,11 +9,9 @@ class ERNPanel extends React.Component{
     <div>
       <div>
         <Panel header={this.props.schemaPanel}>
-              <xmp>
               <div>
                   {this.props.schemaValidation}
               </div>
-              </xmp>
         </Panel>
       </div>
       <div>
