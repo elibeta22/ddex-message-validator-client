@@ -112,8 +112,8 @@ class ERNComponent extends React.Component {
 
       // we use FormData as superagent does not support mulitpart on the client
       if (this.state.ernVersion === "ERN Version" ||
-          this.state.releaseVersion === "releaseVersion" ||
-          this.state.profileVersion === "profileVersion"){
+          this.state.releaseVersion === "Release Version" ||
+          this.state.profileVersion === "Profile Version"){
                     this.setState({ schemaValidation:'Please choose a schemaVersion, schematronVersion and Profile Version to begin validating your XML Document.'});
                     return false;
       }
